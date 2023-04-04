@@ -1,0 +1,8 @@
+.wrapper{
+    display: flex;
+    justify-content: space-around;
+}
+.item{
+    font-weight: bold;
+    font-size: 24px;
+}

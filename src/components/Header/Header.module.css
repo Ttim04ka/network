@@ -1,0 +1,22 @@
+
+.profile_name{
+    color: #d6d0d0;
+    font-size: 18px;
+}
+.profile_img{
+    background-color: #24298d;
+    width: 35px;
+    height: 35px;
+    bottom: 3px;
+    margin-left: 5px;
+}
+.profile_btn{
+    margin-left: 40px;
+    margin-right: 70px;
+    width: 90px;
+    height: 35px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}
