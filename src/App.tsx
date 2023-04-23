@@ -14,16 +14,14 @@ import { ActionTypes } from './redux/users-reducer';
 import { UsersPage } from './components/Users/UsersContainer';
 import {
   DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Avatar, MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu } from 'antd';
+import { MenuProps } from 'antd';
+import { Layout, Menu } from 'antd';
 import HeaderApp from './components/Header/Header';
 
-const { Header, Content, Footer, Sider } = Layout;
+const {Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -52,10 +50,6 @@ const items: MenuItem[] = [
 
 
 
-
-
-
-
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const SuspensedChatPage=React.lazy(() => import('./pages/chat/chatPage'));
@@ -71,50 +65,53 @@ type IProps={
   store:any
 }
 
-const App:React.FC< MapStateToProps & MapDispatchToProps & IProps >=(props)=>{
+const App:React.FC< MapStateToProps & MapDispatchToProps & IProps >=React.memo((props)=>{
       useEffect(()=>{
         props.setInitializedApp();
       })
-      let location=useLocation();
       
+      let location=useLocation()
+
       const [collapsed, setCollapsed] = useState(false);
+
       if(!props.initialized){ return <Preloader></Preloader> } 
       return (
-      
-            <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible collapsed={collapsed} onCollapse={(value:any) => setCollapsed(value)}>
-              <div className="logo" />
-              <Menu theme="dark" selectedKeys={[location.pathname]} mode="inline" style={{fontSize:"22px",marginTop:"15px"}}  items={items} />
-            </Sider>
-            <Layout className="site-layout">
-              <HeaderApp></HeaderApp>
-              <Content style={{ margin: '16px' }}>
+    
+          <Layout style={{ minHeight: '100vh' }}>
+          <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+            <div className="logo" />
+            <Menu theme="dark" selectedKeys={[location.pathname]} mode="inline" style={{fontSize:"22px",marginTop:"15px"}}  items={items} />
+          </Sider>
+          <Layout className="site-layout">
+            <HeaderApp></HeaderApp>
+            <Content style={{ margin: '16px' }}>
 
-                  <Route exact path='/chat' 
-                    render={()=>{ return <React.Suspense fallback={<div>Loading...</div>}> 
-                      <SuspensedChatPage/> 
-                  </React.Suspense> } }/> 
+              <Route exact path='/chat' 
+                render={()=>{ return <React.Suspense fallback={<div>Loading...</div>}> 
+                  <SuspensedChatPage/> 
+              </React.Suspense> } }/> 
 
-                  <Route exact path='/dialogs' 
-                    render={()=>{ return <React.Suspense fallback={<div>Loading...</div>}> 
-                      <DialogsContainer store={props.store}/> 
-                  </React.Suspense> } }/> 
+              <Route exact path='/dialogs' 
+                render={()=>{ return <React.Suspense fallback={<div>Loading...</div>}> 
+                  <DialogsContainer store={props.store}/> 
+              </React.Suspense> } }/> 
 
-                  <Route exact path='/profile/:userId?' 
-                    render={()=>{ return <React.Suspense fallback={<div>Loading...</div>}> <ProfileContainer store={props.store}/> 
-                  </React.Suspense> } }/> 
+              <Route exact path='/profile/:userId?' 
+                render={()=>{ return <React.Suspense fallback={<div>Loading...</div>}> <ProfileContainer store={props.store}/> 
+              </React.Suspense> } }/> 
 
-                  <Route exact path='/users' render={()=> <UsersPage/> }/> 
+              <Route exact path='/users' render={()=> <UsersPage/> }/> 
 
-                  <Route exact path='/login' render={()=> <LoginContainer/> }/>
+              <Route exact path='/login' render={()=> <LoginContainer/> }/>
 
-              </Content>
-              <Footer style={{ textAlign: 'center'}}>Social Network created by <a href='https://vk.com/vegetableeeeeeee'>Timur Tilyaev</a></Footer>
-            </Layout>
+            </Content>
+            <Footer style={{ textAlign: 'center'}}>Social Network created by <a href='https://vk.com/vegetableeeeeeee'>Timur Tilyaev</a></Footer>
           </Layout>
-            
+        </Layout>
+
+              
       )
-}
+})
   
     
 
@@ -126,14 +123,13 @@ let AppContainer=compose<React.ComponentType>(
 
 const Network: React.FC =(props:any)=>{
   return(
-    <BrowserRouter>
-      <HelmetProvider>
-        <Provider store={store}>
-            <AppContainer/>
-        </Provider>
-      </HelmetProvider>
-    </BrowserRouter>
-    
+    <HelmetProvider>
+       <Provider store={store}>
+        <BrowserRouter>
+          <AppContainer/>
+        </BrowserRouter>
+      </Provider>
+    </HelmetProvider>
   )
 }
 export default Network

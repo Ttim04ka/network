@@ -1,6 +1,4 @@
 
-import exp from "constants";
-import { type } from "os";
 import { loginThunkCreator } from "./auth-reducer";
 
 const SET_INITIALIZED="SET_INITIALIZED";
@@ -41,7 +39,6 @@ export const setInitialized=(): SetInitializedActionType=>{
 
 export const setInitializedApp=()=>(dispatch: any )=>{
    let promise=dispatch(loginThunkCreator())
-   debugger;
    promise.then(()=>{dispatch(setInitialized())})
    
 }

@@ -1,27 +1,24 @@
 
 import React from 'react';
-import { reduxForm,Field, InjectedFormProps } from 'redux-form';
-import { createField, Input, Textarea } from '../Preloader/FormsControls';
-import ProfileStatusWithHooks from './ProfileStatusWithHooks';
+import { reduxForm, InjectedFormProps } from 'redux-form';
+import { CheckBox, createField, Input, Textarea } from '../Preloader/FormsControls';
 import { FormDataType } from '../Login/LoginContainer';
-
+import styles from './Profile.module.css'
 type IProps={
   selectMainPhohto:(e:any)=>void
 }
 
 const ProfileDataForm:React.FC<InjectedFormProps<FormDataType,IProps>& IProps>=(props:any)=>{
-  return <form onSubmit={props.handleSubmit}>
-
-    <img src={props.photo}></img>
-    {props.isOwner && <input type='file' onChange={props.selectMainPhohto}></input>}
-    <div><button onClick={()=>{}}>save</button></div>
-    <p>description:{createField("Full name",'fullName',[],Input)}</p>
-    <div>Looking for a job?:{createField("",'lookingForAJob',[],Input,{type:"checkbox"})}</div>
-    <div>My professional skills:{createField("my skills",'lookingForAJobDescription',[],Textarea,)}</div>
-    <div><b>About me</b>{createField("about me",'aboutMe',[],Textarea,)}</div>
+  return(
+  <form onSubmit={props.handleSubmit} className={styles.editForm}>
     
-    <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatusThunkCreator} ></ProfileStatusWithHooks>
+    <p><span className={styles.form_text}>Description:</span>{createField("Full name",'fullName',[],Input)}</p>
+    <div className={styles.form_name}><span className={styles.form_name_title}> Looking for a job?</span> {createField("",'lookingForAJob',[],CheckBox,{type:"checkbox"})}</div>
+    <div><span className={styles.form_text}>My professional skills:</span>{createField("I'm programming realy fast...",'lookingForAJobDescription',[],Textarea,)}</div>
+    <div><span className={styles.form_text}>About me:</span>{createField("for instance, I'm a doctor...",'aboutMe',[],Textarea,)}</div>
+    <span className={styles.form_text}>*Обязательно заполните все поля формы</span>
+    <div><button className={styles.profile_edit} onClick={()=>{}}>save</button></div>
   </form> 
-  }
+  )}
 const ProfileDataReduxForm=reduxForm<FormDataType,IProps>({form:'edit-profile'})(ProfileDataForm)
 export default ProfileDataReduxForm

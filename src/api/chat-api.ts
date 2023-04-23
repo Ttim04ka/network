@@ -21,7 +21,6 @@ const openHandler=()=>{
 const messageHandler=(e:MessageEvent)=>{
     subscribers['status-subscriber'].forEach(s=>s('pending'))
     const newMessage=JSON.parse(e.data);
-    debugger
     subscribers['message-subscriber'].forEach(s=>s(newMessage))
     subscribers['status-subscriber'].forEach(s=>s('ready'))
 

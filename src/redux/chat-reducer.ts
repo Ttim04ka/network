@@ -86,7 +86,6 @@ export const startMessagesListening=():ThunkAction<void,AppState,unknown,ActionT
     chatApi.subscribe('message-subscriber',(message:messagesInfoType[])=>{
        
          dispatch(actions.setMessages(message))
-         debugger;
     })
     chatApi.subscribe('status-subscriber',(status:statusChangedType)=>{
         dispatch(actions.statusChanged(status))

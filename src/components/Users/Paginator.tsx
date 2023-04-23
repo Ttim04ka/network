@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { FilterStateType } from '../../redux/users-reducer';
-import u from './Users.module.css'
+import styles from './Users.module.css'
 
 type Props={
     totalUsersCount:number
@@ -24,18 +24,18 @@ let Paginator:React.FC<Props>=(props)=>{
     let [portionNumber,setPortionNumber]=useState(1);
     let leftBorder=(portionNumber-1)*portionSize+1;
     let rightBorder=portionNumber*portionSize;
-    return <div style={{display:'flex'}}>
+    return <div className={styles.paginator} >
         {portionNumber>1 &&
-        <button onClick={()=>{setPortionNumber(portionNumber-1);}}> PREV </button>}
-        <div className={u.choice}>
+        <button className={styles.paginator_btn} onClick={()=>{setPortionNumber(portionNumber-1);}}> PREV </button>}
+        <div className={styles.choice}>
             {pages
             .filter(p=>p>=leftBorder && p<=rightBorder)
             .map(page=>{
-                return <span className={props.currentPage===page ? u.pages: ""} onClick={()=>{props.onPageChanged(page,props.filter)}} >{page}</span>
+                return <span className={props.currentPage===page ? styles.pages: ""} onClick={()=>{props.onPageChanged(page,props.filter)}} >{page}</span>
             })}
         </div>
         {portionCount>portionNumber &&
-        <button onClick={()=>{setPortionNumber(portionNumber+1)}}>NEXT</button>}
+        <button className={styles.paginator_btn} onClick={()=>{setPortionNumber(portionNumber+1)}}>NEXT</button>}
     </div>
 }
 

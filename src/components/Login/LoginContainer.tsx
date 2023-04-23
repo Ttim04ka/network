@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 import { maxLengthCreator, requiredField } from '../../utils/validations/valid';
-import { createField, Input } from '../Preloader/FormsControls';
+import { CheckBox, createField, Input } from '../Preloader/FormsControls';
 import { logIn } from '../../redux/auth-reducer';
 import { Redirect } from 'react-router-dom';
 import styles from './../Preloader/FormsControls.module.css'
@@ -37,7 +37,6 @@ export const LoginContainer:React.FC=(props)=>{
     }
 
     return <div>
-        <h1>Login</h1>
         <LoginReduxForm onSubmit={getDataFromForm} captchaURL={captchaURL}></LoginReduxForm>
     </div> 
 }
@@ -52,14 +51,14 @@ const LoginForm:React.FC<InjectedFormProps<FormDataType,IProps> & IProps>=({hand
 
     
     return <div>
-        <form onSubmit={handleSubmit}>
-            <div>{createField<FormDataTypeKeys>("login",'email',[requiredField,maxLength10],Input)}</div>
-            <div><Field component={Input} type="password" placeholder="password" name="password" validate={[requiredField,maxLength10]} text={`input`} /></div>
-            <div>Remember me <Field component={Input}  type="checkbox" placeholder="password" name="rememberMe" /></div>
-            {captchaURL && <img src={captchaURL}></img>}
-            {captchaURL && <Field component={Input}  type="text" placeholder="simbols from image" name="captcha"  validate={[requiredField]}/>}
+        <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.item}><span className={styles.text}>Username: </span>{createField<FormDataTypeKeys>("login",'email',[requiredField,maxLength10],Input)}</div>
+            <div className={styles.item}><span className={styles.text}>Password: </span><Field component={Input} type="password" placeholder="password" name="password" validate={[requiredField,maxLength10]} text={`input`} /></div>
+            <div className={styles.item}><span className={styles.text}></span><Field component={CheckBox}  type="checkbox" placeholder="password" name="rememberMe" /><span className={styles.remember}>Remember me </span></div>
+            {captchaURL && <div className={styles.item}><span className={styles.text}></span> <img src={captchaURL} className={styles.captcha_img}></img></div> }
+            {captchaURL && <div className={styles.item}><span className={styles.text}></span><Field component={Input}  type="text" placeholder="simbols from image" name="captcha"  validate={[requiredField]}/></div>}
             {error && <div className={styles.summaryError}>{error}</div>}
-            <div><button type="submit">Log in </button></div>
+            <div  className={styles.item}><span className={styles.text}></span><button type="submit" className={styles.btn} >Log in</button></div>
         </form>
     </div> 
 }

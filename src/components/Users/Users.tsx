@@ -4,38 +4,37 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import  { FilterStateType, followThunkCreator, getUserThunkCreator,  unfollowThunkCreator }  from '../../redux/users-reducer';
-import { getCurrentPage, getDisabledBtn, getFilter, getPageSize, getTotalUsersCount, getUsers } from '../../redux/users-selectors';
+import { getCurrentPage, getDisabledBtn, getFilter, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from '../../redux/users-selectors';
 import Paginator from './Paginator';
-import u from './Users.module.css'
+import styles from './Users.module.css'
 import * as queryString from 'querystring'
+import Preloader from '../Preloader/Preloader';
 type Props={
     portionSize?:number 
 }
-let Users:React.FC<Props>=(props)=>{
+let Users:React.FC<Props>=React.memo((props)=>{
 
-
+    const isFetching=useSelector(getIsFetching)
     const disable=useSelector(getDisabledBtn)
     const users=useSelector(getUsers)
     const filter=useSelector(getFilter)
     const totalUsersCount=useSelector(getTotalUsersCount)
     const pageSize=useSelector(getPageSize)
     const currentPage=useSelector(getCurrentPage)
-    
     const dispatch=useDispatch()
-
     const unfollowThunk=(id:number)=>{dispatch(unfollowThunkCreator(id))}
     const followThunk=(id:number)=>{dispatch(followThunkCreator(id))}
     const history=useHistory()
    
     useEffect(()=>{
         const parsed=queryString.parse(history.location.search.substr(1))
-
         let actualPage=currentPage;
         let actualFilter=filter;
-
         if(parsed.page) actualPage=Number(parsed.page)
         if(parsed.term) actualFilter={...actualFilter,term:parsed.term as string}
         if(parsed.friend) actualFilter={...actualFilter,friend:parsed.friend==="null" ? null : parsed.friend==="true" ? true : false }
+
+
         dispatch(getUserThunkCreator(actualPage,pageSize,actualFilter))
     },[])
     useEffect(()=>{
@@ -59,46 +58,58 @@ let Users:React.FC<Props>=(props)=>{
         dispatch(getUserThunkCreator(currentPage,pageSize,filter))
     }
 
-    return <div>
-            <UsersSearchForm onFilterChanged={onFilterChanged}></UsersSearchForm>
-            <Paginator currentPage={currentPage} onPageChanged={onPageChanged} totalUsersCount={totalUsersCount} pageSize={pageSize} filter={filter}></Paginator>
-            {users.map(users=><div className={u.flex} key={users.id}>
+    return (
+      <>
+      {isFetching ? <Preloader></Preloader> : 
+      <div>
+        <UsersSearchForm onFilterChanged={onFilterChanged}></UsersSearchForm>
+       
+        <div className={styles.users_container}>
+            {users.map(user=><div className={styles.user} key={user.id}>
                 <span >
                     <div>
-                        <NavLink to={'/profile/'+ users.id}>
-                            <img src={users.photoUrl!=null ? users.photoUrl : "http://avotarov.ru/picture/avatar-100/kartinki/924.jpg" } alt="" />
+                        <NavLink to={'/profile/'+ user.id}>
+                            <img className={styles.user_img} src={user.photoUrl!=null ? user.photoUrl : "https://w7.pngwing.com/pngs/364/361/png-transparent-account-avatar-profile-user-avatars-icon.png" } alt="" />
                         </NavLink>
-                       
+                        
                     </div>
+                    <span>
+
+                    <span>
+                        <div className={styles.users_name}>{user.name}</div>
+                        <div className={styles.users_status}><i> {user.status?user.status:"No status yet"}</i></div>
+                    </span>
+
+                </span>
                     <div>
-                        {users.followed 
-                        ? <button disabled={disable.some(id=>id===users.id)} onClick={
+                        {user.followed 
+                        ? <button className={styles.users_btn_active} disabled={disable.some(id=>id===user.id)} onClick={
                             ()=>{
-                               unfollowThunk(users.id);
+                                unfollowThunk(user.id);
                             }
                         }>Unfollow</button> 
-                        : <button disabled={disable.some(id=>id===users.id)} onClick={
+                        : <button className={styles.users_btn} disabled={disable.some(id=>id===user.id)} onClick={
                             ()=>{
-                                followThunk(users.id);
+                                followThunk(user.id);
                             }
                         }>Follow</button>}
                         
                     </div>
                 </span>
-                <span>
-                    <span>
-                        <div>{users.name}</div>
-                        <div>{users.status}</div>
-                    </span>
-                    <span>
-                        <div>{"users.location.city"}</div>
-                        <div>{"users.location.country"}</div>
-                    </span>
-                </span>
                 
             </div>)}
+            
         </div>
-}
+        {users.length>0 && <div className={styles.paginator_container}> 
+            <Paginator currentPage={currentPage} onPageChanged={onPageChanged} totalUsersCount={totalUsersCount} pageSize={pageSize} filter={filter}></Paginator>   
+        </div>}
+        
+       
+        </div>}
+      </>
+        
+       
+)})
 
 
 
@@ -123,21 +134,20 @@ export const UsersSearchForm:React.FC<UsersSearchFormType>=React.memo((props)=>{
             }}
             onSubmit={(values:FilterStateType, { setSubmitting }) => {
                 props.onFilterChanged(values)
-
                 setSubmitting(false)
             }}
             >
             {({ isSubmitting }) => (
-                <Form>
-                <Field type="text" name="term" />
-                <Field name="friend" as="select">
-                    <option value="null">All</option>
-                    <option value="true">Only followed</option>
-                    <option value="false">Only unfollowed</option>
-                </Field>
-                <button type="submit" disabled={isSubmitting}>
-                    Submit
-                </button>
+                <Form className={styles.filter_container}>
+                    <Field type="text" name="term" className={styles.users_nameFilter}/>
+                    <Field name="friend" as="select" className={styles.users_subscribeFilter}>
+                        <option value="null">All</option>
+                        <option value="true">Only followed</option>
+                        <option value="false">Only unfollowed</option>
+                    </Field>
+                    <button type="submit" disabled={isSubmitting} className={styles.users_filterBtn}>
+                        Submit
+                    </button>
                 </Form>
             )}
      </Formik>

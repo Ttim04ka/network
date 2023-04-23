@@ -17,7 +17,7 @@ export type ProfileType={
    message:string
 }
 let initialState={
-    postMessage:[{id:0,message:"Hi"}]as Array<ProfileType>,
+    postMessage:[{id:0,message:"My first post"}]as Array<ProfileType>,
     newPostText:'it-kamasutra',
     profile:null as any,
     status:"",
@@ -173,9 +173,7 @@ export const updateStatusThunkCreator=(status:string):ThunkAction<void,AppState,
 }
 export const savePhotoThunkCreator=(photo:string):ThunkAction<void,AppState,unknown,ActionTypes>=>{
     return (dispatch:any)=>{
-        debugger;
         profileAPI.savePhotos(photo).then((responce:any)=>{
-            debugger;
             if(responce.data.resultCode===0){
                
               dispatch(actions.updatePhoto(responce.data.data.photos.small))

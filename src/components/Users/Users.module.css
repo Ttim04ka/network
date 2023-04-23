@@ -1,10 +1,134 @@
-.flex{
+.users_container{
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.user{
+   margin-top: 30px;
+   margin-left: 100px;
+   margin-right: 100px;
+   margin-bottom: 50px;
+   text-align: center;
+}
+.users_name{
+    font-size: 20px;
+    font-weight: bold;
+}
+.users_status{
+    color: rgb(84, 84, 82);
+    font-weight: bold;
+    margin-bottom: 13px;
+}
+.users_btn{
+    cursor: pointer;
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    border:2px solid #f0f2f5;
+    background-color: #df3522;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all;
+    transition-duration: .3s;
+}
+.users_btn_active{
+    cursor: pointer;
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    border:2px solid #f0f2f5;
+    background-color: rgb(84, 84, 82);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all;
+    transition-duration: .3s;
+}
+.users_btn_active:hover{
+    transform: scale(1.05);
+}
+.users_btn:hover{
+    transform: scale(1.05);
 }
 .pages{
-    font-weight: bold;
+    font-weight: 500;
 }
 .choice{
     cursor: pointer;
+    display: flex;
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 16px;
+}
+
+.user_img{
+    border:1px solid black;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+.paginator_container{
+    position: relative;
+   
+}
+.paginator{
+    display: flex;
+    justify-content: center;
+}
+.filter_container{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.users_nameFilter{
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    height: 30px;
+    border:1px solid rgb(175, 168, 168);
+    outline: none;
+    color:rgb(67, 65, 65)
+}
+.users_subscribeFilter{
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    height: 30px;
+    border:1px solid rgb(175, 168, 168);
+    outline: none;
+}
+.users_filterBtn{
+    height: 35px;
+    margin-top: -2.5px;
+    width: 65px;
+    cursor: pointer;
+    border-radius: 5px;
+    border:2px solid #f0f2f5;
+    background-color: rgb(84, 84, 82);
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    transition: all;
+    transition-duration: .3s;
+}
+.users_filterBtn:hover{
+    transform: scale(1.05);
+}
+.paginator_btn{
+    height: 30px;
+    width: 50px;
+    margin-top: -2.5px;
+    width: 65px;
+    cursor: pointer;
+    border-radius: 5px;
+    border:2px solid #f0f2f5;
+    background-color: rgb(84, 84, 82);
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    transition: all;
+    transition-duration: .3s;
 }

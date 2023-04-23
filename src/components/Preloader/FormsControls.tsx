@@ -11,13 +11,16 @@ type FormControlsParamType={
     props:any
 }
 
-
+export function textAreaAdjust(e:any) {
+    e.currentTarget.style.height = "1px";
+    e.currentTarget.style.height = (25+e.currentTarget.scrollHeight)+"px";
+  }
 export const Textarea:React.FC<FormControlsParamType>=({input,meta:{touched,error},...props})=>{
     const hasError=touched && error
     return (
         
         <div className={ hasError ? styles.error:""}>
-            <textarea {...input} {...props}/>
+            <textarea {...input} {...props} className={styles.textarea} onKeyUp={textAreaAdjust}/>
             {touched && error && <span className={styles.error}>{error}</span>}
         </div>
     )
@@ -27,7 +30,16 @@ export const Input:React.FC<FormControlsParamType>=({input,meta:{touched,error},
     const hasError=touched && error
     return (
         <div className={hasError ? styles.error:""}>
-            <input {...input} {...props}/>
+            <input {...input} {...props} className={styles.input}/>
+            {touched && error && <span className={styles.error}>{error}</span>}
+        </div>
+    )
+}
+export const CheckBox:React.FC<FormControlsParamType>=({input,meta:{touched,error},...props})=>{
+    const hasError=touched && error
+    return (
+        <div className={hasError ? styles.error:""}>
+            <input {...input} {...props} className={styles.checkbox}/>
             {touched && error && <span className={styles.error}>{error}</span>}
         </div>
     )

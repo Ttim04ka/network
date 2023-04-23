@@ -90,8 +90,9 @@ export const loginThunkCreator=():ThunkAction<Promise<void>,AppState,unknown,Act
             let {id,email,login}=responce.data.data;
             dispatch(actions.setUserData(id,email,login,true));
         }else{
-            console.warn('you should log in');
+      
             dispatch(actions.changeLoader(false))
+           
         }
     })
     
@@ -108,6 +109,7 @@ export const logIn=(email:string,password:string,rememberMe:boolean,captcha:stri
             }
             let message=responce.data.messages.length>0 ? responce.data.messages[0] : "Some Error" 
             dispatch(stopSubmit('login',{errors:message}))
+            alert('You should log in');
         }
         
     }

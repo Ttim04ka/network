@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { sendMyMessage, startMessagesListening, stopMessagesListening } from "../../redux/chat-reducer"
 import { AppState } from "../../redux/redux-store"
-
+import styles from './chat.module.css'
+import { textAreaAdjust } from "../../components/Preloader/FormsControls"
 
 
 
@@ -20,6 +21,8 @@ const ChatPage:React.FC=()=>{
     </div>
 
 }
+
+
 const Chat:React.FC=()=>{
 
     let dispatch=useDispatch()
@@ -36,6 +39,8 @@ const Chat:React.FC=()=>{
        <ChatForm ></ChatForm>
     </div>   
 }
+
+
 const Messages:React.FC=()=>{
     const messageInfo=useSelector((state:AppState)=>state.chatReducer.messages);
     const [activeScroll,setActiveScroll]=useState(true);
@@ -59,25 +64,27 @@ const Messages:React.FC=()=>{
     },[messageInfo])
 
 
-    return <div style={{height:'400px',overflowY:'auto'}} onScroll={scrollHandler}>
+    return <div className={styles.field} onScroll={scrollHandler}>
         {messageInfo.map((m:any)=><Message message={m} key={m.id}></Message>)}
         <div ref={scrollRef} ></div>
     </div>  
 }
 
 const Message:React.FC<{message:messagesInfoType}>=React.memo(({message})=>{
-   
-    console.log('message')
-    return <div>
+
+    return(
+    <div className={styles.chat_container}>
        <div>
-        <img style={{height:'70px',width:'70px',marginRight:'30px'}} src={message.photo} alt=""/>
-        <b>{message.userName}</b>
+        <img className={styles.chat_img} src={message.photo} alt=""/>
+        <i className={styles.chat_username}>{message.userName}</i>
        </div>
-       <br />
-       {message.message}
-       <hr />
-    </div>   
+        <div className={styles.chat_message}>{message.message!=="" ? "Сообщение: " + message.message : "Сообщение: Пустое сообщение"}</div> 
+    </div> 
+    )  
 })
+
+
+
 const ChatForm:React.FC=()=>{ 
     const [message,setMessage]=useState('');
     let status=useSelector((state:AppState)=>state.chatReducer.status)
@@ -90,11 +97,16 @@ const ChatForm:React.FC=()=>{
         setMessage('')
     }   
    
-    return <div>
+    return(
+    <div>
       <div>
-        <textarea onChange={(e)=>{setMessage(e.currentTarget.value)}} value={message}></textarea>
+        <textarea className={styles.chat_textarea} placeholder="Введите ваше сообщение..." onChange={(e)=>{setMessage(e.currentTarget.value)}} value={message} onKeyUp={textAreaAdjust}></textarea>
       </div>
-      <div><button onClick={sendMessage} disabled={status!=='ready'}>send</button></div>
+      <div><button onClick={sendMessage} disabled={status!=='ready'} className={styles.chat_btn}>send</button></div>
     </div>   
+    )
 }
+
+
+
 export default ChatPage

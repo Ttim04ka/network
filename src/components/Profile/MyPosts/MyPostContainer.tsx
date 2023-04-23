@@ -9,8 +9,11 @@ let mapStateToProps=(state:AppState)=>{
         profilePage:state.profileReducer
     }
 }
+export type Props={
+ isOwner:any
+}
 let addPostActionCreator=actions.addPostActionCreator
-const MyPostContainer=connect(mapStateToProps,{addPostActionCreator})(MyPost);
+const MyPostContainer:React.FC<Props>=connect(mapStateToProps,{addPostActionCreator})(MyPost);
 
 
 export default MyPostContainer;

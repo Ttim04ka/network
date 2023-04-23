@@ -14,7 +14,7 @@ const SET_FILTER="SET_FILTER"
 
 let initialState={
    users:[] as Array<any>,
-   pageSize:5,
+   pageSize:9,
    totalUsersCount:0,
    currentPage:1,
    isFetching:true,
@@ -217,7 +217,6 @@ export const getUserThunkCreator=(currentPage:number,pageSize:number,filter:Filt
     return (dispatch,getState)=>{
         dispatch(actions.changeLoader(true));
         usersAPI.getUsers(currentPage,pageSize,filter.term,filter.friend).then((data:any)=>{
-            debugger
             dispatch(actions.changeLoader(false));     
             dispatch(actions.setfilter(filter)) 
             dispatch(actions.setCurrentPage(currentPage))
@@ -245,9 +244,7 @@ export const followThunkCreator=(id:number):ThunkAction<void,AppState,unknown,Ac
     return (dispatch)=>{
         dispatch(actions.disableBtn(true,id));
         usersAPI.followUser(id).then((responce:any)=>{
-            debugger
             if(responce.resultCode===0){//подписка произошла
-                debugger
                 dispatch(actions.follow(id));
 
             }

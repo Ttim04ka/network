@@ -51,20 +51,17 @@ class ProfileContainer extends React.Component<MapStateToPropsType & MapDispatch
     else{
       actions.updatePhoto( "http://avotarov.ru/picture/avatar-100/kartinki/924.jpg")
     }
-    debugger
-   
     this.props.setUserThunkCreator(userId);
     this.props.getStatusThunkCreator(userId);
   }
   
   componentDidMount(){
-    debugger
     this.refresh()
   }
   componentDidUpdate(prevProps:any) {
 
     if(this.props.match.params.userId!==prevProps.match.params.userId){
-      this.props.updatePhoto( "http://avotarov.ru/picture/avatar-100/kartinki/924.jpg")
+      //this.props.updatePhoto( "http://avotarov.ru/picture/avatar-100/kartinki/924.jpg")
       this.refresh()
       
     }

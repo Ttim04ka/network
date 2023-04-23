@@ -1,7 +1,20 @@
-.item{
-    color: gold;
-}
 
-.block{
+
+.post_input{
     display: block;
+}
+.post_btn{
+    width: 140px;
+    height: 40px;
+    border-radius: 5px;
+    border:2px solid #f0f2f5;
+    background-color: #155999;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all;
+    transition-duration: .3s;
+}
+.post_btn:hover{
+    transform: scale(1.1);
 }
