@@ -1,3 +1,32 @@
+# Network
+## Used technologies:
+### -React JS
+### -Redux
+### -CSS
+### -Bootstrap + AntDesign
+### -WebSocket
+
+## What's this application for and what does this one can do?
+**Before using this network you need to log in**
+***
+![alt text](/src/images/Login.PNG)
+***
+**There is a personal profile**
+***
+![alt text](/src/images/profile.PNG)
+***
+**In this profile you can change your personal information and add posts**
+***
+![alt text](/src/images/edit.PNG)
+***
+**Also there is messanger based on WebSocket in which tou can drop the message**
+***
+![alt text](/src/images/messages.PNG)
+***
+**And finally,there is a list of other personal in which you can follow/unfollow,filter them and wiew their personal information**
+***
+![alt text](/src/images/users.PNG)
+***
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
